@@ -1,0 +1,141 @@
+<div class="row">
+                                    <div class="col-md-6">
+                                        <h4 id="sepcustom[agent_enable]" class="display-4 mb-0">Address Message Detail</h4>
+                                    </div>
+                                    <div class="col-md-6 mt-4">
+                                        <div class="material-switch pull-right">
+                                            <input id="addressToggle" name="address_message_enable" type="checkbox"
+                                                {{$Paymenttemplate->address_message_enable == 1 ? 'checked' : '' }}>
+                                            <label for="addressToggle" class="label-default"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+<div class="row">
+                                    <div class="col-md-6">
+                                        <h4 id="sepcustom[agent_enable]" class="display-4 mb-0">Payment Method</h4><br>
+                                    </div>
+                                    <div class="col-md-6 mt-4">
+                                        <div class="material-switch pull-right">
+                                            <input id="paymentToggle" name="payment_method_enable" type="checkbox"
+                                                {{$Paymenttemplate->payment_method_enable == 1 ? 'checked' : '' }}>
+                                            <label for="paymentToggle" class="label-default"></label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+<style>
+    .material-switch > input[type="checkbox"] {
+        display: none;   
+    }
+
+    .material-switch > label {
+        cursor: pointer;
+        height: 0px;
+        position: relative; 
+        width: 40px;  
+    }
+
+    .material-switch > label::before {
+        background: rgb(0, 0, 0);
+        box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.5);
+        border-radius: 8px;
+        content: '';
+        height: 16px;
+        margin-top: -8px;
+        position: absolute;
+        opacity: 0.3;
+        transition: all 0.4s ease-in-out;
+        width: 40px;
+    }
+
+    .material-switch > label::after {
+        background: rgb(255, 255, 255);
+        border-radius: 16px;
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        content: '';
+        height: 24px;
+        left: -4px;
+        margin-top: -8px;
+        position: absolute;
+        top: -4px;
+        transition: all 0.3s ease-in-out;
+        width: 24px;
+    }
+
+    .material-switch > input[type="checkbox"]:checked + label::before {
+        background: rgb(0, 128, 0);
+        opacity: 0.7;
+    }
+    .material-switch > input[type="checkbox"]:checked + label::after {
+        background: rgb(255, 255, 255);
+        left: 20px;
+    }
+</style>
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#addressToggle').change(function(){
+            if (!confirm('Are you sure?')) {
+                return false; 
+            }
+            let addressMessageEnabled = $(this).prop('checked') ? 1 : 0;
+            $.ajax({
+                url: "{{ route('Catalog.address_message_enable') }}",
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    address_message_enable: addressMessageEnabled
+                },
+                success: function(response) {
+                    alert('Address message setting updated');
+                },
+                error: function(xhr, status, error) {
+                    alert('Something went wrong!');
+                }
+            });
+        });
+
+        $('#paymentToggle').change(function(){
+            if (!confirm('Are you sure?')) {
+                return false; 
+            }
+            let paymentMethodEnabled = $(this).prop('checked') ? 1 : 0;
+            $.ajax({
+                url: "{{ route('Catalog.payment_method_enable') }}", 
+                type: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    payment_method_enable: paymentMethodEnabled
+                },
+                success: function(response) {
+                    alert('Payment method setting updated');
+                },
+                error: function(xhr, status, error) {
+                    alert('Something went wrong!');
+                }
+            });
+        });
+    });
+</script>
+
+
+
